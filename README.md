@@ -48,3 +48,31 @@ Si l'exécution et le contrôle des axiomes réussissent, l'agent peut retourner
 
 
 C'est un exemple de réponse attendue, pas le résultat d'une exécution réelle.
+
+## latex-to-lean converter
+Prompt à envoyer à Claude Code
+
+        Utilise l'agent latex-to-lean pour convertir
+        la formule suivante en Lean 4 :
+
+        \forall n \in \mathbb{N},\quad
+        \sum_{k=0}^{n} k = \frac{n(n+1)}{2}
+
+## input-output:
+
+Input LaTeX
+
+
+        \[
+        \forall a,b \in \mathbb{N},\quad a+b=b+a
+        \]
+
+output LEAN
+
+
+        import Mathlib
+
+        def additionStatement : Prop :=
+        ∀ a b : Nat, a + b = b + a
+
+        #check additionStatement

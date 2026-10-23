@@ -1,27 +1,53 @@
 
-# Lean Verification Project
+## Multi-agent Lean verification workflow
 
-This project uses Lean 4 and Mathlib to formally
-verify mathematical propositions.
+This project uses two specialized agents:
 
-## Agent delegation
+### latex-to-lean
 
-Delegate Lean proof generation and verification
-tasks to the lean-verifier subagent.
+Responsibilities:
+- Convert LaTeX mathematical expressions to Lean 4.
+- Preserve the original mathematical meaning.
+- Identify assumptions and ambiguities.
+- Validate Lean syntax and types.
+- Save output to Proofs/Converted.lean.
 
-## Requirements
+### lean-verifier
 
-- Use Lean 4 and Mathlib.
-- Execute generated Lean code.
-- Never claim a proof is valid without verification.
-- Do not modify approved theorem statements.
-- Reject proofs using unapproved axioms.
-- Report errors and failed verification attempts.
+Responsibilities:
+- Generate formal proofs.
+- Execute Lean 4 with Mathlib.
+- Debug proof failures.
+- Check axiom dependencies.
+- Return verification results.
 
-## Verification command
+## Agent orchestration
 
-lake env lean Proofs/Generated.lean
+For LaTeX inputs:
 
-## Exemple de prompt:
+1. Delegate LaTeX formalization to latex-to-lean.
+2. Obtain the generated Lean proposition.
+3. Ask the user to confirm the formalization
+   if there are unresolved ambiguities.
+4. Delegate proof generation to lean-verifier.
+5. Keep the formalized proposition unchanged.
+6. Execute Lean verification.
+7. Return the final report.
 
-Utilise l'agent lean-verifier pour démontrer que pour tous les entiers naturels a et b, a + b = b + a. Génère le code Lean, exécute-le avec Mathlib, corrige les erreurs éventuelles et retourne le rapport de vérification.
+## Verification statuses
+
+CONVERTED:
+  LaTeX successfully translated into Lean.
+
+TYPE_CHECKED:
+  Lean accepts the proposition as well-typed.
+
+VERIFIED:
+  Lean kernel accepts the proof and its axioms
+  satisfy the project's approved axiom policy.
+
+FAILED:
+  Compilation or proof verification failed.
+
+INCONCLUSIVE:
+  Verification could not be completed.
