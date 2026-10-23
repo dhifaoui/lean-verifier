@@ -1,0 +1,13 @@
+name = "lean_project"
+defaultTargets = ["lean_project"]
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+
+[[lean_lib]]
+name = "Proofs"
+
+[[lean_exe]]
+name = "lean_project"
+root = "Main"
